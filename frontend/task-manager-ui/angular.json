@@ -67,6 +67,11 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "ssl": true,
+            "sslCert": ".cert/localhost.pem",
+            "sslKey": ".cert/localhost.key"
+          },
           "configurations": {
             "production": {
               "buildTarget": "task-manager-ui:build:production"
