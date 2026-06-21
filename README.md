@@ -10,7 +10,7 @@ Full-stack task management app.
 Default local URLs:
 
 - API: `https://localhost:7111`
-- UI: `http://localhost:4200`
+- UI: `https://localhost:4200`
 
 Backend:
 
@@ -31,7 +31,18 @@ Frontend:
 ```powershell
 Set-Location .\frontend\task-manager-ui
 npm install
-npm start
+npm run start
+```
+
+Note: running `npm run start` from the repository root fails because there is no root `package.json`.
+
+For local HTTPS UI certificate setup (one-time on a machine):
+
+```powershell
+dotnet dev-certs https --trust
+Set-Location .\frontend\task-manager-ui
+if (!(Test-Path .cert)) { New-Item -ItemType Directory .cert | Out-Null }
+dotnet dev-certs https --export-path .cert\localhost.pem --format Pem --no-password
 ```
 
 ## Login

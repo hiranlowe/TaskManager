@@ -76,6 +76,6 @@ dotnet run --project .\TaskManager.Api\TaskManager.Api.csproj --launch-profile h
 
 ## Notes
 
-- CORS allows `http://localhost:4200`
+- CORS allows `http://localhost:4200` and `https://localhost:4200`
 - API base route: `https://localhost:7111/api/tasks`
 - Keep the frontend `app-config.json` URL aligned with the backend URL

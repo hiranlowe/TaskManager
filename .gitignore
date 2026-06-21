@@ -9,6 +9,7 @@
 **/dist/
 **/node_modules/
 **/out-tsc/
+frontend/task-manager-ui/.cert/
 
 # Local database and backup artifacts
 /backups/

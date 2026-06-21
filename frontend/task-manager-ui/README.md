@@ -14,12 +14,20 @@ From `frontend/task-manager-ui/`:
 
 ```bash
 npm install
-npm start
+npm run start
 ```
 
 Default UI URL:
 
-- `http://localhost:4200`
+- `https://localhost:4200`
+
+If this is the first run on a machine, trust and export a local development certificate:
+
+```powershell
+dotnet dev-certs https --trust
+if (!(Test-Path .cert)) { New-Item -ItemType Directory .cert | Out-Null }
+dotnet dev-certs https --export-path .cert/localhost.pem --format Pem --no-password
+```
 
 ## Build
 
@@ -59,5 +67,7 @@ The app uses Basic Authentication.
 If login or task loading fails:
 
 1. Make sure the backend is running on `https://localhost:7111`
-2. Trust the local .NET HTTPS certificate with `dotnet dev-certs https --trust`
-3. Check `public/app-config.json`
+2. Start the frontend from `frontend/task-manager-ui` (not repository root)
+3. Trust/export the local HTTPS certificate as shown above
+4. Check `public/app-config.json`
+5. Confirm credentials in `backend/TaskManager.Api/appsettings.json` (`admin` / `admin123` by default)
