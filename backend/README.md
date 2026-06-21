@@ -61,7 +61,7 @@ dotnet dev-certs https --trust
 dotnet test .\TaskManager.slnx
 ```
 
-Service-layer unit tests live in `TaskManager.Application.Tests`.
+Backend unit tests live in `TaskManager.Application.Tests` and currently cover application service behavior plus API controller behavior.
 
 ## Database
 
