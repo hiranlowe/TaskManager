@@ -1,0 +1,52 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Frontend artifacts
+**/.angular/cache/
+**/coverage/
+**/dist/
+**/node_modules/
+**/out-tsc/
+
+# Local database and backup artifacts
+/backups/
+*.backup
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+!database/TaskManagerDb.bak
+
+# Logs
+*.log
+npm-debug.log
+
+# .NET build, test, and package artifacts
+**/bin/
+**/obj/
+**/packages/
+**/TestResults/
+*.nupkg
+*.snupkg
+*.trx
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Visual Studio / .NET IDE artifacts
+**/.vs/
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+
+# VS Code workspace settings
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/mcp.json
+!.vscode/settings.json
+!.vscode/tasks.json

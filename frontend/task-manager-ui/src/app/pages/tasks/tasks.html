@@ -1,0 +1,191 @@
+<!doctype html>
+<div class="tasks-page">
+
+  <header class="topbar">
+    <div class="card-header">
+  <div>
+    <h2>Tasks</h2>
+    <span>{{ tasks().length }} total tasks</span>
+  </div>
+</div>
+
+    <div class="topbar-actions">
+      <div class="filters">
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          [value]="searchText"
+          (input)="onSearchInput($event)">
+
+        <select
+          [value]="statusFilter"
+          (change)="onStatusFilterChange($event)">
+          <option value="">All Status</option>
+          <option value="true">Completed</option>
+          <option value="false">Pending</option>
+        </select>
+
+        <select
+          [value]="sortBy"
+          (change)="onSortByChange($event)">
+          <option value="">Newest First</option>
+          <option value="title">Title</option>
+          <option value="duedate">Due Date</option>
+          <option value="completed">Status</option>
+        </select>
+
+        <button class="clear-btn" (click)="clearFilters()">
+          Clear
+        </button>
+      </div>
+
+      <button class="logout-btn" type="button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section class="task-list-card">
+      @if (notification()) {
+        <div [class]="'toast toast--' + notification()!.type">
+          <span>{{ notification()!.message }}</span>
+          <button class="toast-close" (click)="dismissNotification()">&#x2715;</button>
+        </div>
+      }
+
+      @if (loadError()) {
+        <p class="load-error">{{ loadError() }}</p>
+      }
+
+      <div class="card-header">
+        <div>
+          <h2>Tasks</h2>
+          <span>{{ tasks().length }} total tasks</span>
+        </div>
+      </div>
+
+      @if (hasTasks) {
+        <div class="tasks-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="task-col">Task</th>
+                <th class="due-date-col">Due Date</th>
+                <th>Status</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (task of tasks(); track task.id) {
+                <tr>
+                  <td class="task-col">
+                    <strong>{{ task.title }}</strong>
+                    <p class="task-description" [title]="task.description || ''">{{ task.description }}</p>
+                  </td>
+
+                  <td class="due-date-col">
+                    @if (task.dueDate) {
+                      {{ task.dueDate | date:'mediumDate' }}
+                    } @else {
+                      No due date
+                    }
+                  </td>
+
+                  <td>
+                    <span
+                      class="status"
+                      [class.completed]="task.isCompleted"
+                      [class.pending]="!task.isCompleted">
+                      {{ task.isCompleted ? 'Completed' : 'Pending' }}
+                    </span>
+                  </td>
+
+                  <td class="actions-col">
+                    <button class="action-btn edit-btn" (click)="editTask(task)">
+                      Edit
+                    </button>
+
+                    <button class="action-btn delete-btn" (click)="deleteTask(task.id)">
+                      Delete
+                    </button>
+
+                    <button class="action-btn complete-btn" (click)="toggleComplete(task)">
+                      {{ task.isCompleted ? 'Undo' : 'Complete' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (hasNoTasks) {
+        <p>No tasks found.</p>
+      }
+    </section>
+
+    <section class="task-form-card">
+      <h2>
+        {{ selectedTaskId ? 'Edit Task' : 'Add Task' }}
+      </h2>
+
+      <label for="task-title">Title <span class="required">*</span></label>
+      <input
+        id="task-title"
+        type="text"
+        placeholder="Enter task title"
+        [class.input-error]="formErrors().title"
+        [value]="taskForm.title"
+        (input)="onTitleInput($event)">
+      @if (formErrors().title) {
+        <span class="field-error">{{ formErrors().title }}</span>
+      }
+
+      <label for="task-description">Description</label>
+      <textarea
+        id="task-description"
+        placeholder="Enter task description"
+        [value]="taskForm.description"
+        (input)="onDescriptionInput($event)">
+      </textarea>
+
+      <label for="task-due-date">Due Date <span class="required">*</span></label>
+      <input
+        id="task-due-date"
+        type="date"
+        [class.input-error]="formErrors().dueDate"
+        [value]="taskForm.dueDate"
+        (input)="onDueDateInput($event)">
+      @if (formErrors().dueDate) {
+        <span class="field-error">{{ formErrors().dueDate }}</span>
+      }
+
+      <label class="checkbox-row" for="task-completed">
+        <input
+          id="task-completed"
+          type="checkbox"
+          [checked]="taskForm.isCompleted"
+          (change)="onCompletedChange($event)">
+        Completed
+      </label>
+
+      <button class="primary-btn" (click)="saveTask()">
+        {{ selectedTaskId ? 'Update Task' : 'Create Task' }}
+      </button>
+
+      @if (selectedTaskId) {
+        <button
+          class="secondary-btn"
+          (click)="resetForm()">
+          Cancel Edit
+        </button>
+      }
+    </section>
+
+  </main>
+
+</div>
